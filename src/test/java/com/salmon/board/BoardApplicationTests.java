@@ -1,7 +1,5 @@
 package com.salmon.board;
 
-import com.salmon.board.domain.Board;
-import com.salmon.board.domain.dto.BoardRequestDto;
 import com.salmon.board.service.BoardService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

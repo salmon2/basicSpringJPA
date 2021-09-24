@@ -24,9 +24,9 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
-    private String username;
+    private String email;
 
-    private String address;
+    private String password;
 
     @BatchSize(size = 100)
     @OneToMany(mappedBy = "member", fetch = LAZY, cascade = ALL)

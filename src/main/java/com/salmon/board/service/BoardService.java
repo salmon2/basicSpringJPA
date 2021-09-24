@@ -2,9 +2,9 @@ package com.salmon.board.service;
 
 
 import com.salmon.board.domain.Board;
-import com.salmon.board.domain.dto.BoardListResponseDto;
-import com.salmon.board.domain.dto.BoardRequestDto;
-import com.salmon.board.domain.dto.BoardResponseDto;
+import com.salmon.board.domain.dto.board.BoardListResponseDto;
+import com.salmon.board.domain.dto.board.BoardRequestDto;
+import com.salmon.board.domain.dto.board.BoardResponseDto;
 import com.salmon.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;

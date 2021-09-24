@@ -1,7 +1,7 @@
 package com.salmon.board.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.salmon.board.domain.dto.BoardRequestDto;
+import com.salmon.board.domain.dto.board.BoardRequestDto;
 import lombok.*;
 
 import javax.persistence.*;

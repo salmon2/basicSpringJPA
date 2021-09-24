@@ -1,4 +1,4 @@
-package com.salmon.board.domain.dto;
+package com.salmon.board.domain.dto.board;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,9 +9,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BoardRequestDto {
-    private String writer;
+public class BoardResponseDto {
+    private Long id;
 
     private String title;
-    private String content;
+    private String writer;
+    private String contents;
+    private String createdAt;
 }

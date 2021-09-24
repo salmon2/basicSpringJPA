@@ -1,19 +1,19 @@
-package com.salmon.board.domain.dto;
+package com.salmon.board.domain.dto.board;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BoardResponseDto {
+@Getter
+@Setter
+public class BoardListResponseDto {
     private Long id;
 
     private String title;
     private String writer;
-    private String contents;
     private String createdAt;
 }

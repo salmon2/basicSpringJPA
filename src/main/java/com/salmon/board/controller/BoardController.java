@@ -2,9 +2,9 @@ package com.salmon.board.controller;
 
 
 import com.salmon.board.domain.Board;
-import com.salmon.board.domain.dto.BoardListResponseDto;
-import com.salmon.board.domain.dto.BoardRequestDto;
-import com.salmon.board.domain.dto.BoardResponseDto;
+import com.salmon.board.domain.dto.board.BoardListResponseDto;
+import com.salmon.board.domain.dto.board.BoardRequestDto;
+import com.salmon.board.domain.dto.board.BoardResponseDto;
 import com.salmon.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -29,10 +29,10 @@ public class BoardController {
         return "hello";
     }
 
-    @GetMapping("/")
-    public String home(Model model){
-        return readBoardList(model);
-    }
+//    @GetMapping("/")
+//    public String home(Model model){
+//        return readBoardList(model);
+//    }
 
     //Create Page Rendering
     @GetMapping("/board/save")
