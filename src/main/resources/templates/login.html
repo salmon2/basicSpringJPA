@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang ="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href = "../static/css/login.css" th:href="@{/css/login.css}" rel="stylesheet">
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    <title>로그인 페이지</title>
+    <style>
+        .sign{
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="container">
+    <div class="form-container sign-up-container">
+        <form action="#">
+            <div class ="sign">
+                <h1>Create Account</h1>
+                <span>or use your email for registration</span>
+            </div>
+            <input type="text" placeholder="Name" />
+            <input type="email" placeholder="Email" />
+            <input type="password" placeholder="Password" />
+            <button>Sign Up</button>
+        </form>
+    </div>
+    <div class="form-container sign-in-container">
+        <form action="#">
+            <div class = "sign">
+                <h1>Sign in</h1>
+                <span>or use your account</span>
+            </div>
+            <input id = "sign_in_email" type="email" placeholder="Email" />
+            <input id = "sign_in_password" type="password" placeholder="Password" />
+            <a href="#">Forgot your password?</a>
+            <button onclick = "sign_in()">Sign In</button>
+        </form>
+    </div>
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <h1>Welcome Back!</h1>
+                <p>To keep connected with us please login with your personal info</p>
+                <button class="ghost" id="signIn">Sign In</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1>Hello, Friend!</h1>
+                <p>Enter your personal details and start journey with us</p>
+                <button class="ghost" id="signUp">Sign Up</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const signUpButton = document.getElementById('signUp');
+    const signInButton = document.getElementById('signIn');
+    const container = document.getElementById('container');
+
+    signUpButton.addEventListener('click', () => {
+        container.classList.add("right-panel-active");
+    });
+
+    signInButton.addEventListener('click', () => {
+        container.classList.remove("right-panel-active");
+    });
+
+    function sign_in() {
+        let email = $("#sign_in_email").val()
+        let password = $("#sign_in_password").val()
+
+        if (email == "") {
+            $("#sign_in_email").text("아이디를 입력해주세요.")
+            $("#sign_in_email").focus()
+            return;
+        }
+
+        if (password == "") {
+            $("#sign_in_password").text("비밀번호를 입력해주세요.")
+            $("#sign_in_password").focus()
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/login",
+            data: {
+                email: email,
+                password: password
+            },
+            success: function (response) {
+                if (response['msg'] == 'success') {
+                    $.cookie('mytoken', response['jwtToken'], {path: '/'});
+                    window.location.href = "/board/List"
+                } else {
+                    alert(response['msg'])
+                }
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

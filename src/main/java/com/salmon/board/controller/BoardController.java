@@ -6,7 +6,9 @@ import com.salmon.board.domain.dto.BoardListResponseDto;
 import com.salmon.board.domain.dto.BoardRequestDto;
 import com.salmon.board.domain.dto.BoardResponseDto;
 import com.salmon.board.service.BoardService;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +33,10 @@ public class BoardController {
 
     @GetMapping("/")
     public String home(Model model){
-        return readBoardList(model);
+
+
+
+        return "login";
     }
 
     //Create Page Rendering
@@ -43,6 +48,8 @@ public class BoardController {
     //Create Post
     @PostMapping("/board/save")
     public String saveBoard(@RequestBody @ModelAttribute BoardRequestDto boardRequestDto){
+
+
         Board save = boardService.save(boardRequestDto);
 
         return "redirect:/board/List";
@@ -51,6 +58,7 @@ public class BoardController {
     //Read One Rendering
     @GetMapping("/board")
     public String readBoard(@RequestParam(value = "id", defaultValue = "0", required = true) Long id, Model model){
+
         BoardResponseDto findBoard = boardService.findById(id);
         model.addAttribute("board", findBoard);
 
@@ -61,7 +69,6 @@ public class BoardController {
     @GetMapping("/board/List")
     public String readBoardList(Model model){
         List<BoardListResponseDto> findBoardList = boardService.findAll();
-
         model.addAttribute("boardList", findBoardList);
 
         return "boardList";

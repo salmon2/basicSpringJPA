@@ -31,7 +31,7 @@ public class SimpleListener implements ApplicationListener<ApplicationStartedEve
         transaction.begin();
 
         Member newMember = new Member(
-                "admin",
+                "admin@naver.com",
                 passwordEncoder.encode("asdf"),
                 Collections.singletonList("ROLE_USER")
         );

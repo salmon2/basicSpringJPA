@@ -3,8 +3,12 @@ package com.salmon.board.controller;
 import com.salmon.board.domain.Member;
 import com.salmon.board.repository.MemberRepository;
 import com.salmon.board.security.JwtTokenProvider;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,12 +38,32 @@ public class MemberController {
 
     // 로그인
     @PostMapping("/login")
-    public String login(@RequestBody Map<String, String> user) {
-        Member member = memberRepository.findByEmail(user.get("email"))
+    public loginResponseDto login(@ModelAttribute  @RequestBody loginRequestDto loginRequestDto) {
+        System.out.println("login");
+
+        Member member = memberRepository.findByEmail(loginRequestDto.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
-        if (!passwordEncoder.matches(user.get("password"), member.getPassword())) {
-            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
+        if (!passwordEncoder.matches(loginRequestDto.getPassword(), member.getPassword())) {
+            return new loginResponseDto("fail", null);
         }
-        return jwtTokenProvider.createToken(member.getUsername(), member.getRoles());
+
+
+        return new loginResponseDto("success", jwtTokenProvider.createToken(member.getUsername(), member.getRoles()));
     }
+
+
+    @AllArgsConstructor
+    @Getter
+    private class loginResponseDto{
+        private String msg;
+        private String jwtToken;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    private class loginRequestDto{
+        private String email;
+        private String password;
+    }
+
 }
