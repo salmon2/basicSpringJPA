@@ -22,6 +22,8 @@ public class BoardController {
     //Test
     @GetMapping("/hello")
     public String hello(Model model){
+
+
         List<BoardListResponseDto> findBoardList = boardService.findAll();
 
         model.addAttribute("cnt", findBoardList);
