@@ -32,4 +32,8 @@ public class Member {
     @OneToMany(mappedBy = "member", fetch = LAZY, cascade = ALL)
     private Set<Board> boards = new HashSet<>();
 
+    public Member(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
 }

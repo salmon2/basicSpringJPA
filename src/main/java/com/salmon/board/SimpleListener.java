@@ -1,6 +1,7 @@
 package com.salmon.board;
 
 import com.salmon.board.domain.Board;
+import com.salmon.board.domain.Member;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
@@ -29,6 +30,9 @@ public class SimpleListener implements ApplicationListener<ApplicationStartedEve
 
             em.persist(newBoard);
         }
+
+        Member newMember = new Member("admin@naver.com", "asdf");
+        em.persist(newMember);
 
         em.getTransaction().commit();
     }

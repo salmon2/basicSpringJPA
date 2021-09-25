@@ -5,18 +5,19 @@ import com.salmon.board.domain.Board;
 import com.salmon.board.domain.dto.board.BoardListResponseDto;
 import com.salmon.board.domain.dto.board.BoardRequestDto;
 import com.salmon.board.domain.dto.board.BoardResponseDto;
-import com.salmon.board.service.BoardService;
+import com.salmon.board.service.BoardServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class BoardController {
-    private final BoardService boardService;
+    private final BoardServiceImpl boardService;
 
     //Test
     @GetMapping("/hello")
@@ -31,7 +32,7 @@ public class BoardController {
 
 //    @GetMapping("/")
 //    public String home(Model model){
-//        return readBoardList(model);
+//        return userLogin;
 //    }
 
     //Create Page Rendering
@@ -42,8 +43,11 @@ public class BoardController {
 
     //Create Post
     @PostMapping("/board/save")
-    public String saveBoard(@RequestBody @ModelAttribute BoardRequestDto boardRequestDto){
-        Board save = boardService.save(boardRequestDto);
+    public String saveBoard(@RequestBody @ModelAttribute BoardRequestDto boardRequestDto, HttpSession httpSession){
+
+        String email = (String)httpSession.getAttribute("email");
+
+        Board save = boardService.save(email, boardRequestDto);
 
         return "redirect:/board/List";
     }

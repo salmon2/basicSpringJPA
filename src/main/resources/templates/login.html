@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <link href = "../static/css/login.css" th:href="@{/css/login.css}" rel="stylesheet">
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
     <title>로그인 페이지</title>
     <style>
         .sign_in{
@@ -13,35 +18,46 @@
 <body>
 
 <div class="container" id="container">
-    <div class="form-container sign-up-container">
-        <form action="#">
+
+
+
+    <div  class="form-container sign-up-container">
+        <form action="/join" method="post">
             <div class ="sign_in">
                 <h1>Create Account</h1>
                 <span>or use your email for registration</span>
             </div>
-            <input type="text" placeholder="Name" />
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" />
-            <button>Sign Up</button>
+            <input id = "join_email" required name="email" type="email" placeholder="Email" />
+            <button type="button" onclick="emailCheck()" id="idCheck">email 중복 확인</button>
+            <input pw = "join_password" requeired name="password" type="password" placeholder="Password" />
+            <button type="submit" >Sign Up</button>
         </form>
     </div>
+
+
+
     <div class="form-container sign-in-container">
-        <form action="#">
+        <form action="/login" method="post">
             <div class = "sign_in">
                 <h1>Sign in</h1>
                 <span>or use your account</span>
             </div>
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" />
+            <input id = "sign_in_email" required name="email" type="email" placeholder="Email" />
+
+            <input id = "sign_in_password" requeired name="password" type="password" placeholder="Password" />
             <a href="#">Forgot your password?</a>
-            <button>Sign In</button>
+
+            <button type ="submit" >Sign In</button>
         </form>
     </div>
+
+
     <div class="overlay-container">
         <div class="overlay">
             <div class="overlay-panel overlay-left">
                 <h1>Welcome Back!</h1>
                 <p>To keep connected with us please login with your personal info</p>
+
                 <button class="ghost" id="signIn">Sign In</button>
             </div>
             <div class="overlay-panel overlay-right">
@@ -56,6 +72,7 @@
     const signUpButton = document.getElementById('signUp');
     const signInButton = document.getElementById('signIn');
     const container = document.getElementById('container');
+    let toggle = 0;
 
     signUpButton.addEventListener('click', () => {
         container.classList.add("right-panel-active");
@@ -64,6 +81,29 @@
     signInButton.addEventListener('click', () => {
         container.classList.remove("right-panel-active");
     });
+
+    function emailCheck () {
+
+        $.ajax({
+            type: 'POST',
+            url: '/emailCheck?email=' + $('#join_email').val(),
+            success: function (data) {
+                console.log('ddd', data)
+                if (data == 0) {
+                    alert("사용 가능")
+                    toggle = 1;
+                }
+                else {
+                    alert("사용 불가능")
+                    $('#id').val('');
+                    toggle = 0;
+                }
+            }
+        });
+
+    }
+
+
 </script>
 </body>
 </html>
