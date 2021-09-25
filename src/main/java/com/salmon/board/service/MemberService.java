@@ -10,5 +10,6 @@ public interface MemberService {
     public void userJoin(MemberDto dto) throws Exception;
     public void userLogout(HttpSession session) throws Exception;
     public int idCheck(String email) throws Exception;
+    public boolean loginRedirect(HttpSession httpSession);
 
 }

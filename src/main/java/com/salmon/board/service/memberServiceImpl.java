@@ -22,6 +22,19 @@ public class memberServiceImpl implements MemberService{
 
     private final MemberRepository memberRepository;
 
+
+    public boolean loginRedirect(HttpSession httpSession) {
+        String email = (String) httpSession.getAttribute("email");
+
+        //로그아웃
+        if(email == null){
+            return false;
+        }
+        //로그인
+        else
+            return true;
+    }
+
     public boolean isLogin(String email) {
         boolean isLogin = false;
         Enumeration<String> e = loginUsers.keys();
@@ -84,4 +97,5 @@ public class memberServiceImpl implements MemberService{
         else
             return 1;
     }
+
 }

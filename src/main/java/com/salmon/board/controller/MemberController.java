@@ -21,21 +21,28 @@ public class MemberController {
     }
 
     // 홈페이지
-    @RequestMapping("/")
-    public String home() throws Exception {
-        return "login";
+    @GetMapping("/")
+    public String home(HttpSession httpSession) throws Exception {
+        if(memberService.loginRedirect(httpSession) == false)
+            return "login";
+        else
+            return "boardList";
 
     }
 
 
+
+    //로그인 처리
     @PostMapping("/login")
     public String userLogin(@ModelAttribute @RequestBody MemberDto dto, HttpSession session) throws Exception {
         System.out.println("login");
         boolean result = memberService.memberLogin(dto, session);
 
+        //로그인 성공
         if (result == true) {
             return "redirect:/board/List";
         }
+        //로그인 실패
         else {
             return "login";
         }

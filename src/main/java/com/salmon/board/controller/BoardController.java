@@ -5,7 +5,9 @@ import com.salmon.board.domain.Board;
 import com.salmon.board.domain.dto.board.BoardListResponseDto;
 import com.salmon.board.domain.dto.board.BoardRequestDto;
 import com.salmon.board.domain.dto.board.BoardResponseDto;
+import com.salmon.board.service.BoardService;
 import com.salmon.board.service.BoardServiceImpl;
+import com.salmon.board.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,13 +19,15 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class BoardController {
-    private final BoardServiceImpl boardService;
+    private final BoardService boardService;
+    private final MemberService memberService;
 
     //Test
     @GetMapping("/hello")
-    public String hello(Model model){
+    public String hello(Model model, HttpSession httpSession){
 
-
+        String email = (String)httpSession.getAttribute("email");
+        System.out.println("email = " + email);
         List<BoardListResponseDto> findBoardList = boardService.findAll();
 
         model.addAttribute("cnt", findBoardList);
@@ -32,20 +36,19 @@ public class BoardController {
         return "hello";
     }
 
-//    @GetMapping("/")
-//    public String home(Model model){
-//        return userLogin;
-//    }
-
     //Create Page Rendering
     @GetMapping("/board/save")
-    public String saveBoardRendering(){
+    public String saveBoardRendering(HttpSession httpSession){
+        if(memberService.loginRedirect(httpSession) == false)
+            return "login";
         return "addForm";
     }
 
     //Create Post
     @PostMapping("/board/save")
-    public String saveBoard(@RequestBody @ModelAttribute BoardRequestDto boardRequestDto, HttpSession httpSession){
+    public String saveBoard(HttpSession httpSession, @RequestBody @ModelAttribute BoardRequestDto boardRequestDto){
+        if(memberService.loginRedirect(httpSession) == false)
+            return "login";
 
         String email = (String)httpSession.getAttribute("email");
 
@@ -56,7 +59,10 @@ public class BoardController {
 
     //Read One Rendering
     @GetMapping("/board")
-    public String readBoard(@RequestParam(value = "id", defaultValue = "0", required = true) Long id, Model model){
+    public String readBoard(HttpSession httpSession, @RequestParam(value = "id", defaultValue = "0", required = true) Long id, Model model){
+        if(memberService.loginRedirect(httpSession) == false)
+            return "login";
+
         BoardResponseDto findBoard = boardService.findById(id);
         model.addAttribute("board", findBoard);
 
@@ -65,9 +71,11 @@ public class BoardController {
 
     //Read List Rendering
     @GetMapping("/board/List")
-    public String readBoardList(Model model){
-        List<BoardListResponseDto> findBoardList = boardService.findAll();
+    public String readBoardList(Model model, HttpSession httpSession){
+        if(memberService.loginRedirect(httpSession) == false)
+            return "login";
 
+        List<BoardListResponseDto> findBoardList = boardService.findAll();
         model.addAttribute("boardList", findBoardList);
 
         return "boardList";
@@ -75,7 +83,9 @@ public class BoardController {
 
     //Update Page Rendering
     @GetMapping("/board/update")
-    public String updateBoardRendering(@RequestParam(value = "id", required = true) Long id, Model  model){
+    public String updateBoardRendering(@RequestParam(value = "id", required = true) Long id, HttpSession httpSession, Model  model){
+        if(memberService.loginRedirect(httpSession) == false)
+            return "login";
         BoardResponseDto findBoard = boardService.findById(id);
 
         model.addAttribute("board", findBoard);
@@ -85,7 +95,10 @@ public class BoardController {
 
     //Update
     @PutMapping("/board/update")
-    public String updateBoard(@RequestParam(value = "id", required = true)Long id, @RequestBody @ModelAttribute BoardRequestDto boardRequestDto){
+    public String updateBoard(HttpSession httpSession, @RequestParam(value = "id", required = true)Long id, @RequestBody @ModelAttribute BoardRequestDto boardRequestDto){
+        if(memberService.loginRedirect(httpSession) == false)
+            return "login";
+
         Board updateBoard = boardService.update(id, boardRequestDto);
 
         return "boardList";
@@ -93,9 +106,10 @@ public class BoardController {
 
     //Delete
     @GetMapping("/board/delete")
-    public String deleteBoard(@RequestParam(value = "id", required = true)Long id){
+    public String deleteBoard(HttpSession httpSession, @RequestParam(value = "id", required = true)Long id){
+        if(memberService.loginRedirect(httpSession) == false)
+            return "login";
         boardService.delete(id);
-
         return "redirect:/board/List";
     }
 
