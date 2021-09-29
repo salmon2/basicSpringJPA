@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-09-29T10:55:58.146Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36" etag="F2t4W2QEgrX7MTIS_hA4" version="15.3.5" type="github">
+<mxfile host="app.diagrams.net" modified="2021-09-29T10:56:26.578Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36" etag="sDwcL7RHjNeh45r5_fOo" version="15.3.5" type="github">
   <diagram id="X0YZ28yXUPdveuB8HkFa" name="Page-1">
     <mxGraphModel dx="2047" dy="1112" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -65,6 +65,12 @@
         </mxCell>
         <mxCell id="casB5CiScgcEJVeo6pqg-24" value="&lt;font style=&quot;font-size: 20px&quot;&gt;구성영역&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;hachureGap=4;pointerEvents=0;" vertex="1" parent="1">
           <mxGeometry x="500" y="820" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="casB5CiScgcEJVeo6pqg-25" value="&lt;font style=&quot;font-size: 20px&quot;&gt;구현체&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="260" y="430" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="casB5CiScgcEJVeo6pqg-26" value="&lt;font style=&quot;font-size: 20px&quot;&gt;구현체&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="530" y="585" width="80" height="20" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
