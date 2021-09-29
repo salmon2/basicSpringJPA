@@ -29,7 +29,8 @@ public class BoardServiceImpl implements BoardService{
     @Transactional
     @Override
     public Board save(String email, BoardRequestDto boardRequestDto){
-        Board newBoard = new Board(boardRequestDto.getTitle(), boardRequestDto.getContent(), email);
+        Board newBoard = new Board(boardRequestDto.getTitle(),
+                boardRequestDto.getContent(), email);
         Board save = boardRepository.save(newBoard);
         return save;
     }
@@ -53,7 +54,9 @@ public class BoardServiceImpl implements BoardService{
     //Read One
     @Override
     public BoardResponseDto findById(Long id){
-        Optional<Board> optional = boardRepository.findById(id);
+        Optional<Board> optional = Optional.ofNullable(boardRepository.findById(id).orElseThrow(
+                () -> new NullPointerException("아이디가 존재하지 않습니다.")
+        ));
         Board findBoard = optional.get();
 
         BoardResponseDto findBoardResponseDto = new BoardResponseDto(
@@ -67,11 +70,11 @@ public class BoardServiceImpl implements BoardService{
     @Override
     @Transactional
     public Board update(Long id, BoardRequestDto boardRequestDto){
-        Optional<Board> optional = boardRepository.findById(id);
-        Board findBoard = optional.get();
-
-        findBoard.update(boardRequestDto);
-        return findBoard;
+        Board findboard = boardRepository.findById(id).orElseThrow(
+                () -> new NullPointerException("아이디가 존재하지 않습니다.")
+        );
+        findboard.update(boardRequestDto);
+        return findboard;
     }
 
     //Delete

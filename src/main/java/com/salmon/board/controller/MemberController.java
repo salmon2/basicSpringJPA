@@ -23,7 +23,7 @@ public class MemberController {
     // 홈페이지
     @GetMapping("/")
     public String home(HttpSession httpSession) throws Exception {
-        if(memberService.loginRedirect(httpSession) == false)
+        if(memberService.loginCheck(httpSession) == false)
             return "login";
         else
             return "boardList";
@@ -41,6 +41,7 @@ public class MemberController {
         //로그인 성공
         if (result == true) {
             return "redirect:/board/List";
+            ///board/List Get 방식으로 이동해라
         }
         //로그인 실패
         else {

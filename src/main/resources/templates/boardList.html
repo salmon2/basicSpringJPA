@@ -8,7 +8,9 @@
     <meta property="og:title" content="나만의 게시판">
     <meta property="og:description" content="게시판">
     <meta property="og:image" content="images/og_selectshop.png">
+    <script>
 
+    </script>
 </head>
 <body>
 <div class="container" style="max-width: 600px">
@@ -40,11 +42,12 @@
             </tr>
             </thead>
             <tbody>
-                <tr th:onclick="'window.location.href = \'' + @{/board?id={id}(id=${board.getId()})} + '\''" th:each="board : ${boardList}">
+                <tr  th:onclick="'window.location.href = \'' + @{/board?id={id}  (id=${board.getId()})} + '\''" th:each="board : ${boardList}">
                     <td th:text="${board.getWriter()}">작성이</td>
                     <td th:text="${board.getTitle()}">제목</td>
                     <td th:text="${board.getCreatedAt()}">날짜</td>
                 </tr>
+                <tr  onclick="search(this.id)" id="{{ charge._id }}">
             </tbody>
         </table>
     </div>

@@ -6,7 +6,6 @@ import com.salmon.board.domain.dto.board.BoardListResponseDto;
 import com.salmon.board.domain.dto.board.BoardRequestDto;
 import com.salmon.board.domain.dto.board.BoardResponseDto;
 import com.salmon.board.service.BoardService;
-import com.salmon.board.service.BoardServiceImpl;
 import com.salmon.board.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -24,14 +23,14 @@ public class BoardController {
 
     //Test
     @GetMapping("/hello")
-    public String hello(Model model, HttpSession httpSession){
-
+    public String hello(Model model, HttpSession httpSession, @RequestParam Long id){
         String email = (String)httpSession.getAttribute("email");
         System.out.println("email = " + email);
+
         List<BoardListResponseDto> findBoardList = boardService.findAll();
 
         model.addAttribute("cnt", findBoardList);
-        model.addAttribute("test", 2);
+        model.addAttribute("test", id);
 
         return "hello";
     }
@@ -39,7 +38,7 @@ public class BoardController {
     //Create Page Rendering
     @GetMapping("/board/save")
     public String saveBoardRendering(HttpSession httpSession){
-        if(memberService.loginRedirect(httpSession) == false)
+        if(memberService.loginCheck(httpSession) == false)
             return "login";
         return "addForm";
     }
@@ -47,7 +46,7 @@ public class BoardController {
     //Create Post
     @PostMapping("/board/save")
     public String saveBoard(HttpSession httpSession, @RequestBody @ModelAttribute BoardRequestDto boardRequestDto){
-        if(memberService.loginRedirect(httpSession) == false)
+        if(memberService.loginCheck(httpSession) == false)
             return "login";
 
         String email = (String)httpSession.getAttribute("email");
@@ -60,7 +59,7 @@ public class BoardController {
     //Read One Rendering
     @GetMapping("/board")
     public String readBoard(HttpSession httpSession, @RequestParam(value = "id", defaultValue = "0", required = true) Long id, Model model){
-        if(memberService.loginRedirect(httpSession) == false)
+        if(memberService.loginCheck(httpSession) == false)
             return "login";
 
         BoardResponseDto findBoard = boardService.findById(id);
@@ -72,7 +71,7 @@ public class BoardController {
     //Read List Rendering
     @GetMapping("/board/List")
     public String readBoardList(Model model, HttpSession httpSession){
-        if(memberService.loginRedirect(httpSession) == false)
+        if(memberService.loginCheck(httpSession) == false)
             return "login";
 
         List<BoardListResponseDto> findBoardList = boardService.findAll();
@@ -84,7 +83,7 @@ public class BoardController {
     //Update Page Rendering
     @GetMapping("/board/update")
     public String updateBoardRendering(@RequestParam(value = "id", required = true) Long id, HttpSession httpSession, Model  model){
-        if(memberService.loginRedirect(httpSession) == false)
+        if(memberService.loginCheck(httpSession) == false)
             return "login";
         BoardResponseDto findBoard = boardService.findById(id);
 
@@ -96,7 +95,7 @@ public class BoardController {
     //Update
     @PutMapping("/board/update")
     public String updateBoard(HttpSession httpSession, @RequestParam(value = "id", required = true)Long id, @RequestBody @ModelAttribute BoardRequestDto boardRequestDto){
-        if(memberService.loginRedirect(httpSession) == false)
+        if(memberService.loginCheck(httpSession) == false)
             return "login";
 
         Board updateBoard = boardService.update(id, boardRequestDto);
@@ -107,7 +106,7 @@ public class BoardController {
     //Delete
     @GetMapping("/board/delete")
     public String deleteBoard(HttpSession httpSession, @RequestParam(value = "id", required = true)Long id){
-        if(memberService.loginRedirect(httpSession) == false)
+        if(memberService.loginCheck(httpSession) == false)
             return "login";
         boardService.delete(id);
         return "redirect:/board/List";

@@ -23,7 +23,8 @@ public class memberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
 
 
-    public boolean loginRedirect(HttpSession httpSession) {
+    //로그인 확인 function
+    public boolean loginCheck(HttpSession httpSession) {
         String email = (String) httpSession.getAttribute("email");
 
         //로그아웃
@@ -34,7 +35,7 @@ public class memberServiceImpl implements MemberService{
         else
             return true;
     }
-
+    //로그인 확인 내부 function2
     public boolean isLogin(String email) {
         boolean isLogin = false;
         Enumeration<String> e = loginUsers.keys();
@@ -47,6 +48,7 @@ public class memberServiceImpl implements MemberService{
         return isLogin;
     }
 
+    //세션 저장
     public void setSession(HttpSession session, MemberDto dto) {
         System.out.println("session.getId() = " + session.getId());
         loginUsers.put(session.getId(), dto.getEmail());
@@ -54,6 +56,7 @@ public class memberServiceImpl implements MemberService{
     }
 
 
+    //로그인
     @Override
     public boolean memberLogin(MemberDto dto, HttpSession session) throws Exception {
         boolean isLogin = isLogin(dto.getEmail());
@@ -71,6 +74,7 @@ public class memberServiceImpl implements MemberService{
         return false;
     }
 
+    //회원가입
     @Override
     @Transactional
     public void userJoin(MemberDto dto) throws Exception {
@@ -81,6 +85,7 @@ public class memberServiceImpl implements MemberService{
 
 
 
+    //로그아웃
     @Override
     public void userLogout(HttpSession session) throws Exception {
         loginUsers.remove(session.getId());
@@ -88,6 +93,7 @@ public class memberServiceImpl implements MemberService{
     }
 
 
+    //이메일 체크
     @Override
     public int idCheck(String email) throws Exception {
         Member findEmail = memberRepository.findByEmail(email);
